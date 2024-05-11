@@ -3,3 +3,11 @@ fastapi
 numpy
 cachetools
 orjson
+langchain[all-documents]
+langchain[unstructured]
+unstructured
+python-docx
+python-pptx
+openpyxl
+pdfminer.six
+pypdf

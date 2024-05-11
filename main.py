@@ -4,6 +4,7 @@ from typing import Any, Awaitable, Callable, ParamSpec, TypeVar
 
 import numpy as np
 from cachetools import TTLCache, cached
+from docs import app as docs_app
 from fastapi import FastAPI
 from fastapi.responses import ORJSONResponse
 from pydantic import BaseModel
@@ -67,3 +68,5 @@ async def embed(request: Content):
         },
         status_code=200,
     )
+
+app.include_router(docs_app)
