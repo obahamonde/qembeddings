@@ -11,3 +11,4 @@ python-pptx
 openpyxl
 pdfminer.six
 pypdf
+pdf2image
