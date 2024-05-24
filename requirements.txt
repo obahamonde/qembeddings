@@ -1,10 +1,12 @@
 sentence-transformers
-fastapi
+fastapi-slim
+uvicorn
 numpy
 cachetools
 orjson
 langchain[all-documents]
 langchain[unstructured]
+langchain-community
 unstructured
 python-docx
 python-pptx
@@ -12,3 +14,4 @@ openpyxl
 pdfminer.six
 pypdf
 pdf2image
+python-multipart
