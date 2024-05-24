@@ -6,7 +6,8 @@ from langchain.document_loaders.excel import UnstructuredExcelLoader
 from langchain.document_loaders.pdf import UnstructuredPDFLoader
 from langchain.document_loaders.powerpoint import UnstructuredPowerPointLoader
 from langchain.document_loaders.text import TextLoader
-from langchain.document_loaders.word_document import UnstructuredWordDocumentLoader
+from langchain.document_loaders.word_document import \
+    UnstructuredWordDocumentLoader
 from langchain.text_splitter import RecursiveCharacterTextSplitter
 
 Document: TypeAlias = Union[
