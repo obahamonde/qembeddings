@@ -8,6 +8,8 @@ from langchain.document_loaders.powerpoint import UnstructuredPowerPointLoader
 from langchain.document_loaders.text import TextLoader
 from langchain.document_loaders.word_document import \
     UnstructuredWordDocumentLoader
+from langchain.document_loaders.json_loader import JSONLoader
+from langchain.document_loaders.markdown import MarkdownLoader
 from langchain.text_splitter import RecursiveCharacterTextSplitter
 
 Document: TypeAlias = Union[
@@ -17,7 +19,19 @@ Document: TypeAlias = Union[
     UnstructuredPowerPointLoader,
     TextLoader,
 ]
-ContentType: TypeAlias = Literal["word", "pdf", "excel", "powerpoint", "text"]
+ContentType: TypeAlias = Literal[
+    "word",
+    "pdf",
+    "excel",
+    "powerpoint",
+    "text",
+    "json",
+    "jsonl",
+    "yaml",
+    "csv",
+    "md",
+    "markdown",
+]
 
 MAPPING = {
     "word": UnstructuredWordDocumentLoader,
@@ -25,6 +39,12 @@ MAPPING = {
     "excel": UnstructuredExcelLoader,
     "powerpoint": UnstructuredPowerPointLoader,
     "text": TextLoader,
+    "json": JSONLoader,
+    "jsonl": JSONLoader,
+    "yaml": JSONLoader,
+    "csv": JSONLoader,
+    "md": MarkdownLoader,
+    "markdown": MarkdownLoader,
 }
 
 
@@ -43,8 +63,20 @@ def check_content_type(file: UploadFile) -> ContentType:
             return "excel"
         if "powerpoint" in file.content_type:
             return "powerpoint"
-        if "text" in file.content_type:
-            return "text"
+        if "json" in file.content_type:
+            return "json"
+        if "yaml" in file.content_type:
+            return "yaml"
+        if "csv" in file.content_type:
+            return "csv"
+        if "md" in file.content_type:
+            return "markdown"
+        if "markdown" in file.content_type:
+            return "markdown"
+        raise HTTPException(
+            status_code=status.HTTP_400_BAD_REQUEST,
+            detail="Unsupported content type",
+        )
     if file.filename:
         if "doc" in file.filename:
             return "word"
@@ -56,10 +88,22 @@ def check_content_type(file: UploadFile) -> ContentType:
             return "powerpoint"
         if "txt" in file.filename:
             return "text"
-        else:
-            raise HTTPException(
-                status_code=status.HTTP_400_BAD_REQUEST, detail="Invalid content type"
-            )
+        if "json" in file.filename:
+            return "json"
+        if "jsonl" in file.filename:
+            return "jsonl"
+        if "yaml" in file.filename:
+            return "yaml"
+        if "csv" in file.filename:
+            return "csv"
+        if "md" in file.filename:
+            return "markdown"
+        if "markdown" in file.filename:
+            return "markdown"
+        raise HTTPException(
+            status_code=status.HTTP_400_BAD_REQUEST,
+            detail="Unsupported file extension",
+        )
     else:
         raise HTTPException(
             status_code=status.HTTP_400_BAD_REQUEST, detail="Unreachable code"

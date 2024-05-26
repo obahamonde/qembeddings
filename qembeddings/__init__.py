@@ -15,7 +15,7 @@ T = TypeVar("T")
 P = ParamSpec("P")
 
 cache = TTLCache(maxsize=1000, ttl=3600)
-MODEL_NAME = "all-MiniLM-L6-v2"
+MODEL_NAME = "all-mpnet-base-v2"
 
 
 class Content(BaseModel):
@@ -62,12 +62,14 @@ def create_app():
     )
 
     @app.post("/embeddings", response_class=ORJSONResponse)
-    async def embed(request: Content):
+    async def _(request: Content):
         start = time.perf_counter()
         embeddings = await make_embedding(request.content)
         return ORJSONResponse(
             content={
                 "total": len(embeddings),
+                "dim": len(embeddings[0]),
+                "model": MODEL_NAME,
                 "process_time": time.perf_counter() - start,
                 "content": embeddings,
             },
