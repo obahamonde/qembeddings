@@ -9,7 +9,9 @@ from langchain.document_loaders.text import TextLoader
 from langchain.document_loaders.word_document import \
     UnstructuredWordDocumentLoader
 from langchain.document_loaders.json_loader import JSONLoader
-from langchain.document_loaders.markdown import MarkdownLoader
+from langchain.document_loaders.markdown import (
+    UnstructuredMarkdownLoader as MarkdownLoader,
+)
 from langchain.text_splitter import RecursiveCharacterTextSplitter
 
 Document: TypeAlias = Union[
@@ -69,6 +71,8 @@ def check_content_type(file: UploadFile) -> ContentType:
             return "yaml"
         if "csv" in file.content_type:
             return "csv"
+        if "jsonl" in file.content_type:
+            return "jsonl"
         if "md" in file.content_type:
             return "markdown"
         if "markdown" in file.content_type:
