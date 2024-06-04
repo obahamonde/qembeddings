@@ -19,7 +19,7 @@ MODEL_NAME = "all-mpnet-base-v2"
 
 
 class Content(BaseModel):
-    content: str | list[str]
+    content: str | list[str] | list[float]
 
 
 @cached(cache)
@@ -61,14 +61,14 @@ def create_app():
         version="0.1.0",
     )
 
-    @app.post("/embeddings", response_class=ORJSONResponse)
+    @app.post("/api/embeddings", response_class=ORJSONResponse)
     async def _(request: Content):
         start = time.perf_counter()
         embeddings = await make_embedding(request.content)
         return ORJSONResponse(
             content={
                 "total": len(embeddings),
-                "dim": len(embeddings[0]),
+                "dim": len(embeddings),
                 "model": MODEL_NAME,
                 "process_time": time.perf_counter() - start,
                 "content": embeddings,

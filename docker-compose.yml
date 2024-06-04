@@ -1,6 +1,5 @@
 services:
 
-
   app:
     container_name: app
     build:
@@ -10,3 +9,10 @@ services:
       - "4500:4500"
     volumes:
       - .:/app
+    networks:
+      - app-network
+
+
+networks:
+  app-network:
+    driver: bridge

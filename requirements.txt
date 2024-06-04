@@ -15,3 +15,10 @@ pdfminer.six
 pypdf
 pdf2image
 python-multipart
+pillow-heif
+opencv-python
+pytesseract
+unstructured-pytesseract
+unstructured_inference
+tesseract
+pikepdf
