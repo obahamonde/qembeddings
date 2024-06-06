@@ -1,5 +1,5 @@
 import tempfile
-from typing import Literal, TypeAlias, Union
+from typing import Literal, TypeAlias, Union, Type
 
 from fastapi import APIRouter, File, HTTPException, UploadFile, status
 from langchain.document_loaders.excel import UnstructuredExcelLoader
@@ -14,11 +14,13 @@ from langchain.document_loaders.markdown import (
 from langchain.text_splitter import RecursiveCharacterTextSplitter
 
 Document: TypeAlias = Union[
-    UnstructuredWordDocumentLoader,
-    UnstructuredPDFLoader,
-    UnstructuredExcelLoader,
-    UnstructuredPowerPointLoader,
-    TextLoader,
+    Type[UnstructuredWordDocumentLoader],
+    Type[UnstructuredPDFLoader],
+    Type[UnstructuredExcelLoader],
+    Type[UnstructuredPowerPointLoader],
+    Type[TextLoader],
+    Type[JSONLoader],
+    Type[MarkdownLoader],
 ]
 ContentType: TypeAlias = Literal[
     "word",
@@ -34,7 +36,7 @@ ContentType: TypeAlias = Literal[
     "markdown",
 ]
 
-MAPPING = {
+MAPPING: dict[ContentType, Document] = {
     "word": UnstructuredWordDocumentLoader,
     "pdf": UnstructuredPDFLoader,
     "excel": UnstructuredExcelLoader,

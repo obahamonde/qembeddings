@@ -1,6 +1,6 @@
 import asyncio
 import time
-from typing import Any, Awaitable, Callable, ParamSpec, TypeVar
+from typing import Any, Awaitable, Callable, ParamSpec, TypeVar, Union
 
 import numpy as np
 from cachetools import TTLCache, cached
@@ -19,7 +19,7 @@ MODEL_NAME = "all-mpnet-base-v2"
 
 
 class Content(BaseModel):
-    content: str | list[str] | list[float]
+    content: Union[str, list[str]]
 
 
 @cached(cache)
@@ -38,7 +38,7 @@ def asyncify(func: Callable[P, T]) -> Callable[P, Awaitable[T]]:
 
 
 @asyncify
-def make_embedding(text: str | list[str]) -> list[np.ndarray[np.float32, Any]]:
+def make_embedding(text: Union[str, list[str]]) -> list[np.ndarray[np.float32, Any]]:
     if isinstance(text, str):
         text = [text]
     return model.encode(  # type: ignore
@@ -68,7 +68,7 @@ def create_app():
         return ORJSONResponse(
             content={
                 "total": len(embeddings),
-                "dim": len(embeddings),
+                "dim": len(embeddings[0]),
                 "model": MODEL_NAME,
                 "process_time": time.perf_counter() - start,
                 "content": embeddings,
