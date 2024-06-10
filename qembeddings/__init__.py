@@ -14,7 +14,7 @@ from .docs import app as docs_app
 T = TypeVar("T")
 P = ParamSpec("P")
 
-cache = TTLCache(maxsize=1000, ttl=3600)
+cache = TTLCache(maxsize=1000, ttl=3600)  # type: ignore
 MODEL_NAME = "all-mpnet-base-v2"
 
 
@@ -22,7 +22,7 @@ class Content(BaseModel):
     content: Union[str, list[str]]
 
 
-@cached(cache)
+@cached(cache)  # type: ignore
 def load_model():
     return SentenceTransformer(MODEL_NAME)
 
