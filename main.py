@@ -1,5 +1,6 @@
-from src import create_app
 from fastapi.middleware.cors import CORSMiddleware
+
+from src import create_app
 
 app = create_app()
 app.add_middleware(
