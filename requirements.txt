@@ -1,6 +1,10 @@
-sentence-transformers
+torch
+transformers
 fastapi-slim
 uvicorn
 numpy
 cachetools
 orjson
+httpx
+einops
+pillow
